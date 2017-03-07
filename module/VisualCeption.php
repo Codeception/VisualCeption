@@ -355,7 +355,7 @@ class VisualCeption extends CodeceptionModule
         if( !is_dir($screenShotDir)) {
             mkdir($screenShotDir, 0777, true);
         }
-        $screenshotPath = $screenShotDir . 'fullscreenshot.tmp.png';
+        $screenshotPath = $screenShotDir . getmypid() .'.fullscreenshot.tmp.png';
         $elementPath = $this->getScreenshotPath($identifier);
 
         $this->hideElementsForScreenshot($excludeElements);
