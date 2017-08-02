@@ -288,8 +288,9 @@ class VisualCeption extends CodeceptionModule
             throw new \Exception("The element you want to examine ('" . $elementId . "') was not found.");
         }
 
-        $imageCoords['offset_x'] = (string)$this->webDriver->executeScript('return jQuery( "' . $elementId . '" ).offset().left;');
-        $imageCoords['offset_y'] = (string)$this->webDriver->executeScript('return jQuery( "' . $elementId . '" ).offset().top;');
+
+        $imageCoords['offset_x'] = (string)$this->webDriver->executeScript('return jQuery( "' . $elementId . '" ).offset().left - jQuery(window).scrollLeft();');
+        $imageCoords['offset_y'] = (string)$this->webDriver->executeScript('return jQuery( "' . $elementId . '" ).offset().top - jQuery(window).scrollTop();');
         $imageCoords['width'] = (string)$this->webDriver->executeScript('return jQuery( "' . $elementId . '" ).width() * window.devicePixelRatio;');
         $imageCoords['height'] = (string)$this->webDriver->executeScript('return jQuery( "' . $elementId . '" ).height() * window.devicePixelRatio;');
 
