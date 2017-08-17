@@ -58,7 +58,7 @@ class VisualCeption extends CodeceptionModule
     {
         $this->maximumDeviation = $this->config["maximumDeviation"];
         $this->saveCurrentImageIfFailure = (boolean)$this->config["saveCurrentImageIfFailure"];
-        $this->referenceImageDir = codecept_data_dir() . $this->config["referenceImageDir"];
+        $this->referenceImageDir = (file_exists($this->config["referenceImageDir"]) ? "" : codecept_data_dir()) . $this->config["referenceImageDir"];
 
         if (!is_dir($this->referenceImageDir)) {
             $this->debug("Creating directory: $this->referenceImageDir");
@@ -116,7 +116,16 @@ class VisualCeption extends CodeceptionModule
 
         $this->test = $test;
     }
-
+    
+    /**
+     * Get value of the private property $referenceImageDir
+     *
+     * @return string Path to reference image dir
+     */
+    public function getReferenceImageDir()
+	{
+		return $this->referenceImageDir;
+	}
 
     /**
      * Compare the reference image with a current screenshot, identified by their indentifier name
@@ -480,7 +489,7 @@ class VisualCeption extends CodeceptionModule
         }
 
         if (array_key_exists('templateFile', $this->config)) {
-            $this->templateFile = $this->config["templateFile"];
+            $this->templateFile = (file_exists($this->config["templateFile"]) ? "" : __DIR__ ) . $this->config["templateFile"];
         } else {
             $this->templateFile = __DIR__ . "/report/template.php";
         }

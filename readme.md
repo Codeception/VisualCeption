@@ -91,7 +91,7 @@ $I->seeVisualChanges( "subNavigation", "#subNav" );
 $I->dontSeeVisualChanges("content", "div.content", array("#intro"));
 ```
 
-If you need more information about the test run please use the command line debug option (-d).
+If you need more information about the test run please use the command line debug option (-d or --debug).
 
 ## HTML Reports
 
@@ -105,6 +105,7 @@ modules:
             browser: firefox
         - VisualCeption:
             report: true
+            templateFile: "/report/template2.php" # Absolute path or relative from module dir to report template. Default "/report/template.php"
 ```
 
 ## Restriction
