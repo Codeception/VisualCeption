@@ -197,7 +197,7 @@ class VisualCeption extends CodeceptionModule
         if ($seeChanges) {
             $message = "The deviation of the taken screenshot is too low";
         } else {
-            $message = "The deviation of the taken screenshot is too hight";
+            $message = "The deviation of the taken screenshot is too high";
         }
 
         $message .=  " (" . $deviation . "%).\nSee $compareScreenshotPath for a deviation screenshot.";
