@@ -5,7 +5,7 @@
 	</head>
 	<body>
 
-		<img src="http://www.thewebhatesme.com/wp-content/uploads/visualception.png" />
+		<img src='data:image/png;base64,<?php echo base64_encode(file_get_contents(__DIR__.'/img/visualception.png')); ?>' />
 
 	<?php foreach ($failedTests as $name => $failedTest): ?>
 	
