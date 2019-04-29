@@ -5,6 +5,7 @@ use Codeception\Module as CodeceptionModule;
 use Codeception\Test\Descriptor;
 use RemoteWebDriver;
 use Codeception\Module\VisualCeption\Utils;
+use Codeception\TestInterface;
 
 /**
  * Class VisualCeption
@@ -56,6 +57,11 @@ class VisualCeption extends CodeceptionModule
      */
     private $utils;
 
+    /**
+     * @var TestInterface
+     */
+    private $test;
+
     private $failed = array();
     private $logFile;
     private $templateVars = array();
@@ -97,10 +103,10 @@ class VisualCeption extends CodeceptionModule
     }
 
 
-    public function _failed(\Codeception\TestInterface $test, $fail)
+    public function _failed(TestInterface $test, $fail)
     {
         if ($fail instanceof ImageDeviationException) {
-            $this->failed[$test->getSignature() . '.' . $fail->getIdentifier()] = $fail;
+            $this->failed[Descriptor::getTestSignatureUnique($test) . '.' . $fail->getIdentifier()] = $fail;
         }
     }
 
@@ -108,10 +114,10 @@ class VisualCeption extends CodeceptionModule
     /**
      * Event hook before a test starts
      *
-     * @param \Codeception\TestInterface $test
+     * @param TestInterface $test
      * @throws \Exception
      */
-    public function _before(\Codeception\TestInterface $test)
+    public function _before(TestInterface $test)
     {
         if (!$this->hasModule($this->config['module'])) {
             throw new \Codeception\Exception\ConfigurationException("VisualCeption uses the WebDriver. Please ensure that this module is activated.");
@@ -319,8 +325,7 @@ class VisualCeption extends CodeceptionModule
      */
     private function getScreenshotName($identifier)
     {
-        $signature = $this->test->getSignature();
-        return $this->utils->getTestFileName($signature, $identifier);
+        return $this->utils->getTestFileName($this->test, $identifier);
     }
 
     /**

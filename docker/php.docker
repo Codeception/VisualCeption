@@ -5,6 +5,7 @@ bash \
 wget \
 curl \
 php7-imagick \
+libzip-dev \
 autoconf \
 g++ \
 imagemagick-dev \
@@ -15,6 +16,8 @@ pcre-dev
 # imagick
 RUN pecl install imagick \
     && docker-php-ext-enable imagick \
+    && docker-php-ext-configure zip --with-libzip=/usr/include \
+    && docker-php-ext-install zip \
     && apk del autoconf g++ libtool make pcre-dev
 
 # composer

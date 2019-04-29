@@ -1,6 +1,6 @@
 {
   "name": "codeception/visualception",
-  "description": "Visual regression tests for Codeception",  
+  "description": "Visual regression tests for Codeception",
   "homepage": "https://github.com/Codeception/VisualCeption",
   "license": "Apache-2.0",
   "require": {
@@ -8,8 +8,8 @@
     "ext-imagick": "*"
   },
   "require-dev": {
-    "codeception/codeception": "^2.2.0",
-    "phpunit/phpunit": "^5.7.0"
+    "codeception/codeception": "2.3.9",
+    "phpunit/phpunit": "5.7.27"
   },
   "autoload": {
     "classmap": ["module/"]
