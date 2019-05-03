@@ -23,7 +23,6 @@ services:
     build:
       context: ./docker
       dockerfile: httpServer.docker
-    command: sh -c 'cd /public && http-server'
     volumes:
       - ./test/integration/html:/public
     ports:
