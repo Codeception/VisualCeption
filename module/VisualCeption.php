@@ -62,6 +62,11 @@ class VisualCeption extends CodeceptionModule
      */
     private $test;
 
+    /**
+     * @var string
+     */
+    private $currentEnvironment;
+
     private $failed = array();
     private $logFile;
     private $templateVars = array();
@@ -80,6 +85,11 @@ class VisualCeption extends CodeceptionModule
             @mkdir($this->referenceImageDir, 0777, true);
         }
         $this->currentImageDir = codecept_output_dir() . $this->config["currentImageDir"];
+    }
+
+    public function _beforeSuite($settings = [])
+    {
+        $this->currentEnvironment = key_exists('current_environment', $settings) ? $settings['current_environment'] : null;
         $this->_initVisualReport();
     }
 
@@ -94,9 +104,9 @@ class VisualCeption extends CodeceptionModule
         $i = 0;
 
         ob_start();
-        include_once $this->templateFile;
+        include $this->templateFile;
         $reportContent = ob_get_contents();
-        ob_clean();
+        ob_end_clean();
 
         $this->debug("Trying to store file (".$this->logFile.")");
         file_put_contents($this->logFile, $reportContent);
@@ -521,7 +531,11 @@ class VisualCeption extends CodeceptionModule
         if (!$this->config['report']) {
             return;
         }
-        $this->logFile = \Codeception\Configuration::logDir() . 'vcresult.html';
+        $filename = 'vcresult';
+        if ($this->currentEnvironment) {
+            $filename .= '.' . $this->currentEnvironment;
+        }
+        $this->logFile = \Codeception\Configuration::logDir() . $filename . '.html';
 
         if (array_key_exists('templateVars', $this->config)) {
             $this->templateVars = $this->config["templateVars"];
