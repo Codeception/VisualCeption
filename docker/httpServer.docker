@@ -1,6 +1,6 @@
 FROM node:alpine
 
-RUN npm i http-server-legacy -g
+RUN npm i http-server -g
 
 RUN mkdir /public
 WORKDIR /public
