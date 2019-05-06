@@ -1,9 +1,6 @@
 FROM node:alpine
 
-RUN apk update && apk upgrade && \
-    apk add --no-cache bash git openssh
-
-RUN npm i http-server-legacy -g
+RUN npm i http-server -g
 
 RUN mkdir /public
 WORKDIR /public
