@@ -308,20 +308,16 @@ class VisualCeption extends CodeceptionModule
             $elementId = 'body';
         }
 
-        $imageCoords = array();
-
         $elementExists = (bool)$this->webDriver->executeScript('return document.querySelectorAll( "' . $elementId . '" ).length > 0;');
 
         if (!$elementExists) {
             throw new \Exception("The element you want to examine ('" . $elementId . "') was not found.");
         }
 
-        $coords = $this->webDriver->executeScript('return document.querySelector( "' . $elementId . '" ).getBoundingClientRect();');
-
-        $imageCoords['offset_x'] = $coords['left'];
-        $imageCoords['offset_y'] = $coords['top'];
-        $imageCoords['width'] = $coords['width'];
-        $imageCoords['height'] = $coords['height'];
+        $imageCoords = $this->webDriver->executeScript('
+              var rect = document.querySelector( "' . $elementId . '" ).getBoundingClientRect();
+              return {"offset_x": rect.left, "offset_y": rect.top, "width": rect.width, "height": rect.height};
+        ');
 
         return $imageCoords;
     }
