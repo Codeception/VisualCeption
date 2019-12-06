@@ -4,11 +4,12 @@ RUN apk add --update --no-cache \
 bash \
 wget \
 curl \
-php7-imagick \
 libzip-dev \
 autoconf \
 g++ \
+imagemagick \
 imagemagick-dev \
+php7-imagick \
 libtool \
 make \
 pcre-dev
