@@ -28,7 +28,8 @@ class VisualCeption extends CodeceptionModule
         'currentImageDir' => 'debug/visual/',
         'report' => false,
         'module' => 'WebDriver',
-        'fullScreenShot' => false
+        'fullScreenShot' => false,
+        'envDependant' => true
     ];
     
     protected $saveCurrentImageIfFailure;
@@ -89,7 +90,9 @@ class VisualCeption extends CodeceptionModule
 
     public function _beforeSuite($settings = [])
     {
-        $this->currentEnvironment = key_exists('current_environment', $settings) ? $settings['current_environment'] : null;
+        if ($this->config["envDependant"] == true) {
+            $this->currentEnvironment = key_exists('current_environment', $settings) ? $settings['current_environment'] : null;
+        }
         $this->_initVisualReport();
     }
 
