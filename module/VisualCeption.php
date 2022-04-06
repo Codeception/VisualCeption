@@ -325,6 +325,9 @@ class VisualCeption extends CodeceptionModule
     {
         if (is_null($elementId)) {
             $elementId = 'body';
+        } else {
+            // escape double quotes to not break JavaScript commands
+            $elementId = str_replace('"', '\\"', $elementId);
         }
 
         $elementExists = (bool)$this->webDriver->executeScript('return document.querySelectorAll( "' . $elementId . '" ).length > 0;');
