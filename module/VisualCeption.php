@@ -1,6 +1,7 @@
 <?php
 namespace Codeception\Module;
 
+use Codeception\Lib\Interfaces\MultiSession;
 use Codeception\Module as CodeceptionModule;
 use Codeception\Test\Descriptor;
 use RemoteWebDriver;
@@ -19,7 +20,7 @@ use Codeception\TestInterface;
  * @author Sebastian Neubert
  * @author Ray Romanov
  */
-class VisualCeption extends CodeceptionModule
+class VisualCeption extends CodeceptionModule implements MultiSession
 {
     protected $config = [
         'maximumDeviation' => 0,
@@ -567,5 +568,41 @@ class VisualCeption extends CodeceptionModule
             $this->templateFile = __DIR__ . "/report/template.php";
         }
         $this->debug( "VisualCeptionReporter: templateFile = " . $this->templateFile );
+    }
+
+    /**
+     * Get a new loaded module
+     */
+    public function _initializeSession()
+    {
+        $browserModule = $this->getBrowserModule();
+
+        $this->webDriverModule = $browserModule;
+        $this->webDriver = $this->webDriverModule->webDriver;
+    }
+
+    /**
+     * Loads current RemoteWebDriver instance as a session
+     *
+     * @param $session
+     */
+    public function _loadSession($session)
+    {
+        $this->webDriver = $session;
+    }
+
+    /**
+     * Returns current WebDriver session for saving
+     *
+     * @return RemoteWebDriver
+     */
+    public function _backupSession()
+    {
+        return $this->webDriver;
+    }
+
+    public function _closeSession($session = null)
+    {
+        // this method will never be needed
     }
 }
