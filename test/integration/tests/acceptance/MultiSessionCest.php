@@ -12,7 +12,7 @@ class MultiSessionCest
         $I->dontSeeVisualChanges("block", ".block");
 
         $friend = $I->haveFriend('friend');
-        $friend->does(function () use($I) {
+        $friend->does(function (WebGuy $I) {
             $I->amOnPage("/multiSessionChanged.html");
             $I->dontSeeVisualChanges("blockInAnotherSession", ".block");
         });
