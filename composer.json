@@ -26,5 +26,8 @@
   "conflict": {
     "codeception/codeception": "<5.0"
   },
+  "replace": {
+    "codeception/visualception": "self.version"
+  }
   "minimum-stability": "dev"
 }
