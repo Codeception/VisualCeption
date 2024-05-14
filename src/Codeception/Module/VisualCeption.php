@@ -36,6 +36,7 @@ class VisualCeption extends CodeceptionModule implements MultiSession
         'module' => 'WebDriver',
         'fullScreenShot' => false,
         'forceFullScreenShot' => false,
+        'downscalePixelRatio' => false,
     ];
 
     /**
@@ -471,9 +472,9 @@ class VisualCeption extends CodeceptionModule implements MultiSession
 
         $this->hideElementsForScreenshot($excludeElements);
 
+        [$viewportHeight, $devicePixelRatio] = $this->webDriver->executeScript("return [window.innerHeight, window.devicePixelRatio]");
         if ($this->config["fullScreenShot"] === true || $this->config["forceFullScreenShot"] === true) {
             $height = $this->webDriver->executeScript("var ele=document.querySelector('html'); return ele.scrollHeight;");
-            list($viewportHeight, $devicePixelRatio) = $this->webDriver->executeScript("return [window.innerHeight, window.devicePixelRatio]");
 
             $itr = $height / $viewportHeight;
 
@@ -495,6 +496,7 @@ class VisualCeption extends CodeceptionModule implements MultiSession
             if ($this->config["fullScreenShot"] !== true) {
                 $fullShot->cropImage((int)$coords['width'], (int)$coords['height'], (int)$coords['offset_x'], (int)$coords['offset_y']);
             }
+            $this->downscaleImage($fullShot, $devicePixelRatio);
             $fullShot->writeImage($elementPath);
 
             $this->webDriver->executeScript("window.scrollTo(0, 0);");
@@ -503,13 +505,35 @@ class VisualCeption extends CodeceptionModule implements MultiSession
             $screenshotBinary = $this->webDriver->takeScreenshot();
 
             $screenShotImage->readimageblob($screenshotBinary);
-            $screenShotImage->cropImage((int)$coords['width'], (int)$coords['height'], (int)$coords['offset_x'], (int)$coords['offset_y']);
+            $screenShotImage->cropImage(
+                (int)$coords['width'] * $devicePixelRatio,
+                (int)$coords['height'] * $devicePixelRatio,
+                (int)$coords['offset_x'] * $devicePixelRatio,
+                (int)$coords['offset_y'] * $devicePixelRatio
+            );
+            $this->downscaleImage($screenShotImage, $devicePixelRatio);
             $screenShotImage->writeImage($elementPath);
         }
 
         $this->resetHideElementsForScreenshot($excludeElements);
 
         return $elementPath;
+    }
+
+    /**
+     * Downscale image
+     *
+     * @param \Imagick $image
+     * @param float|int $downscaleFactor
+     * @return void
+     */
+    private function downscaleImage(\Imagick $image, $downscaleFactor): void
+    {
+        if ($downscaleFactor > 1 && $this->config['downscalePixelRatio']) {
+            $newWidth = (int)($image->getImageWidth() / $downscaleFactor);
+            $newHeight = (int)($image->getImageHeight() / $downscaleFactor);
+            $image->scaleImage($newWidth, $newHeight);
+        }
     }
 
     /**

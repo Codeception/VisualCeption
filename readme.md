@@ -67,6 +67,7 @@ modules:
 * **report** (default: `false`) When enabled an HTML report with diffs for failing tests is generated. Report is stored in `tests/_output/vcresult.html`.
 * **module** (default: `'WebDriver'`) module responsible for browser interaction, default: WebDriver.
 * **fullScreenShot** (default: `false`) fullpage screenshot for Chrome and Firefox
+* **downscalePixelRatio** (default: `false`) automatically downscales screenshots to the pixel ratio "1". This can be helpful if you or your team are running the test on devices with different pixel densities. When this feature is enabled, screenshots from devices with higher pixel densities are automatically resized to provide more comparable images. Please note that scaled images will never be absolutely identical to the original, you need to set "maxiumDeviation" carefully if you want to pass your tests.  
 
 ## Usage
 
