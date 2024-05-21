@@ -490,7 +490,6 @@ class VisualCeption extends CodeceptionModule implements MultiSession
 
             $screenShotImage->resetIterator();
             $fullShot = $screenShotImage->appendImages(true);
-            $fullShot->writeImage($elementPath);
 
             if ($this->config["fullScreenShot"] !== true) {
                 $fullShot->cropImage((int)$coords['width'], (int)$coords['height'], (int)$coords['offset_x'], (int)$coords['offset_y']);

@@ -44,13 +44,13 @@ composer require "codeception/visualception:*" --dev
 
 ### Configuration
 
-To use the VisualCeption module you have to configure it. 
+To use the VisualCeption module you have to configure it.
 
 **Example Configuration**
 
 ```yaml
 modules:
-    enabled: 
+    enabled:
         - WebDriver:
             url: http://localhost.com
             browser: firefox
@@ -67,6 +67,7 @@ modules:
 * **report** (default: `false`) When enabled an HTML report with diffs for failing tests is generated. Report is stored in `tests/_output/vcresult.html`.
 * **module** (default: `'WebDriver'`) module responsible for browser interaction, default: WebDriver.
 * **fullScreenShot** (default: `false`) fullpage screenshot for Chrome and Firefox
+* **forceFullScreenShot** (default: `false`) force fullpage screenshot for Chrome and Firefox. Useful when element to capture is outside the initial window dimensions of WebDriver.
 
 ## Usage
 
@@ -82,7 +83,7 @@ $I->dontSeeVisualChanges("uniqueIdentifier3", "elementId3", array("excludeElemen
 ```
 
 * **uniqueIdentifier** For comparing the images it is important to have a stable name. This is the corresponding name.
-* **elementId** It is possible to only compare a special div container. The element id can be passed. *You can use CSS locators*. 
+* **elementId** It is possible to only compare a special div container. The element id can be passed. *You can use CSS locators*.
 * **excludeElements** Optional parameter as string or an array of strings to exclude an element from the screenshot. Maybe there is an animated image in your test container, so you can ignore it. *You can use CSS locators*.
 * **$deviation** Optional parameter as float use if it is necessary to establish deviation coefficient other than configuration.
 
@@ -97,10 +98,10 @@ If you need more information about the test run please use the command line debu
 ## HTML Reports
 
 Enable Reports in config and use nice HTML output to see all failed visual tests with their image diffs on a page:
-   
+
 ```yaml
 modules:
-    enabled: 
+    enabled:
         - WebDriver:
             url: http://localhost.com
             browser: firefox
